@@ -90,6 +90,13 @@ cd $BUILD_DIR
 
 for filename in `find . -name pubspec.yaml | grep -v dart-sdk | grep -v pub-cache`; do
     pub_dir=`dirname $filename`
+
+    # Ignore Flutter projects
+    if grep -q "sdk: flutter" "$BUILD_DIR/$filename"; then
+      echo "*** Ignoring Flutter pubspec.yaml in in $BUILD_DIR/$pub_dir"
+      continue
+    fi
+
     message "*** Found pubspec.yaml in $BUILD_DIR/$pub_dir"
     cd $BUILD_DIR/$pub_dir
 
